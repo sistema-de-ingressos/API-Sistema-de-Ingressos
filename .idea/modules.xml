@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/API-Sistema-de-Ingressos.iml" filepath="$PROJECT_DIR$/.idea/API-Sistema-de-Ingressos.iml" />
       <module fileurl="file://$PROJECT_DIR$/src/aplication/aplication.iml" filepath="$PROJECT_DIR$/src/aplication/aplication.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/model.entities/model.entities.iml" filepath="$PROJECT_DIR$/src/model.entities/model.entities.iml" />
       <module fileurl="file://$PROJECT_DIR$/src/src.iml" filepath="$PROJECT_DIR$/src/src.iml" />
     </modules>
   </component>
