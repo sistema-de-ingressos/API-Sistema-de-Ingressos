@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class Endereco {
 
     @Id
-    private long id;
+    private Long id;
     private String logradouro;
     private String cep;
     private String bairro;

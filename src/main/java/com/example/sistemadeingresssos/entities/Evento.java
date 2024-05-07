@@ -15,7 +15,7 @@ import java.util.Date;
 public class Evento {
 
     @Id
-    private long id;
+    private Long id;
     private String nome;
     private Integer descricao;
     private Date data;

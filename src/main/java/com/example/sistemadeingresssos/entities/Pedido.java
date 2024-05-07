@@ -19,7 +19,7 @@ import java.util.List;
 public class Pedido {
 
     @Id
-    private Long IdPedido;
+    private Long id;
 
     @OneToOne
     private Cliente cliente_id;
