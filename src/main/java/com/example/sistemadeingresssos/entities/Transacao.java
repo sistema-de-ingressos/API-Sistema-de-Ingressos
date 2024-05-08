@@ -16,7 +16,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Pedido {
+public class Transacao {
 
     @Id
     private Long id;
