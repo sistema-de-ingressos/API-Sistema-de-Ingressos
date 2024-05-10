@@ -10,19 +10,32 @@ import java.util.Date;
 
 @Entity
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Evento {
 
     @Id
-    private Long id;
+    private Integer id;
     private String nome;
-    private Integer descricao;
+    private String descricao;
     private Date data;
     private String local;
     private Integer loteAtual;
     private Double valorAtual;
     private Integer quantidadeMax;
     private Integer quantidadeAtual;
+
+    public Evento() {
+
+    }
+
+    public Evento(String nome, String descricao, Date data, String local, Integer loteAtual, Double valorAtual, Integer quantidadeMax, Integer quantidadeAtual) {
+        this.nome = nome;
+        this.descricao = descricao;
+        this.data = data;
+        this.local = local;
+        this.loteAtual = loteAtual;
+        this.valorAtual = valorAtual;
+        this.quantidadeMax = quantidadeMax;
+        this.quantidadeAtual = quantidadeAtual;
+    }
 
 }

@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class Ingresso {
 
     @Id
-    private Long id;
+    private Integer id;
     @OneToOne
     private Cliente clienteId;
     @OneToOne
