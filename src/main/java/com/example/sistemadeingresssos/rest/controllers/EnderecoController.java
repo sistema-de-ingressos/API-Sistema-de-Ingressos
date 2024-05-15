@@ -1,4 +1,4 @@
-package com.example.sistemadeingresssos.controllers;
+package com.example.sistemadeingresssos.rest.controllers;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
