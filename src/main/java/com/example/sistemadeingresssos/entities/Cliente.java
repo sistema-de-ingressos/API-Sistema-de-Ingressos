@@ -1,17 +1,16 @@
 package com.example.sistemadeingresssos.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import com.example.sistemadeingresssos.rest.dtos.SalvarClienteDTO;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.br.CPF;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 
@@ -22,16 +21,30 @@ import java.util.List;
 public class Cliente {
 
     @Id
-    @NotEmpty(message = "Campo obrigatório!")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(unique = true)
+    @NotEmpty(message = "Campo CPF obrigatório!")
     @CPF(message = "Informe um CPF válido.")
     private String cpf;
-    @NotEmpty(message = "Campo obrigatório!")
-    private String nome;
-    @NotEmpty(message = "Campo obrigatório")
-    private LocalDate dataDeNascimento;
-    @OneToOne
-    private Endereco enderecoId;
-    @OneToMany
-    private List<Ingresso> lista;
 
+    @NotEmpty(message = "Campo nome obrigatório!")
+    private String nome;
+
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    @NotNull(message = "Campo data de nascimento obrigatório")
+    private LocalDate dataDeNascimento;
+
+    @OneToOne
+    private Endereco endereco;
+
+    private List<Ingresso> ingressos;
+
+    public Cliente(SalvarClienteDTO salvarClienteDTO) {
+        this.cpf = salvarClienteDTO.cpf();
+        this.nome = salvarClienteDTO.nome();
+        this.dataDeNascimento = salvarClienteDTO.dataDeNascimento();
+        this.endereco = new Endereco(salvarClienteDTO.enderecoDTO());
+    }
 }
