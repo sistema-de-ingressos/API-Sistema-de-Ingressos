@@ -16,14 +16,14 @@ import java.util.stream.Collectors;
 public class AdviceController {
     @ExceptionHandler(EventoException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ApiErros handleRegraNegocioException(EventoException ex){
+    public ApiErros handleEventoException(EventoException ex){
         String mensagemErro = ex.getMessage();
         return new ApiErros(mensagemErro);
     }
 
     @ExceptionHandler(IngressoNaoEncontradoException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ApiErros handlePedidoNotFoundException( IngressoNaoEncontradoException ex ){
+    public ApiErros handleIngressoNaoEncontradoException( IngressoNaoEncontradoException ex ){
         return new ApiErros(ex.getMessage());
     }
 
