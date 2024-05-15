@@ -1,8 +1,8 @@
 package com.example.sistemadeingresssos.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import com.example.sistemadeingresssos.rest.dtos.SalvarIngressoDTO;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,13 +14,21 @@ import lombok.NoArgsConstructor;
 public class Ingresso {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @OneToOne
-    private Cliente clienteId;
-    @OneToOne
-    private Evento eventoId;
+    @NotNull(message = "Campo id cliente obrigatório")
+    private Cliente cliente;
+    @NotNull(message = "Campo id evento obrigatório")
+    private Evento evento;
+    @NotNull(message = "Campo lote comprado obrigatório")
     private Integer loteComprado;
-    private Double preco;
-    private String formaDePagamento;
+    private Double total;
+    private Double taxa;
 
+    public Ingresso(SalvarIngressoDTO salvarIngressoDTO, Cliente cliente, Evento evento) {
+        this.cliente = new Cliente();
+        this.evento = new Evento();
+        this.total = salvarIngressoDTO.total();
+        this.taxa = salvarIngressoDTO.taxa();
+    }
 }
