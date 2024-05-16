@@ -10,6 +10,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -97,5 +98,9 @@ public class Evento {
     public void setValorAtual(Double valorAtual) {
         this.valorAtual = valorAtual;
         this.taxa = valorAtual * 0.1;
+    }
+
+    public void setImagens(EventoImagem eventoImagem) {
+        this.imagens.add(eventoImagem);
     }
 }

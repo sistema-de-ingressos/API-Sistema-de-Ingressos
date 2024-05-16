@@ -56,6 +56,8 @@ public class EventoService {
     public EventoImagem uploadImagem(MultipartFile multipartFile, Integer id){
         Evento evento = repository.getReferenceById(id);
         EventoImagem eventoImagem = new EventoImagem(multipartFile, evento);
+        evento.setImagens(eventoImagem);
+        evento.setImagemPrincipal(evento.getImagens().getFirst());
         return imagemRepository.save(eventoImagem);
     }
 

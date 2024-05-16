@@ -28,16 +28,17 @@ public class TransacaoService {
     }
 
     public RetornarIngressoDTO save(SalvarIngressoDTO salvarIngressoDTO){
+        SalvarIngressoDTO ingressoDTO = salvarIngressoDTO;
         Evento evento = eventoService.findById(salvarIngressoDTO.idEvento());
 
-        Cliente cliente = new Cliente(salvarIngressoDTO);
+        Cliente cliente = new Cliente(ingressoDTO);
 
         if (clienteService.existsByCPF(cliente.getCpf())) {
             cliente = clienteService.findClienteByCpf(cliente.getCpf());
             clienteService.save(new SalvarClienteDTO(cliente));
         }
 
-        Ingresso ingresso = new Ingresso(salvarIngressoDTO, cliente, evento);
+        Ingresso ingresso = new Ingresso(ingressoDTO, cliente, evento);
         repository.save(ingresso);
 
         return new RetornarIngressoDTO(ingresso);

@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,7 +31,7 @@ public class Endereco {
     private String cidade;
     @NotEmpty(message = "Campo obrigatório!")
     private String estado;
-
+    @NotNull(message = "Campo obrigatório!")
     private Integer numero;
     private String complemento;
 
@@ -42,5 +43,12 @@ public class Endereco {
         this.estado = enderecoDTO.estado();
         this.numero = enderecoDTO.numero();
         this.complemento = enderecoDTO.complemento();
+    }
+
+    public Endereco(String logradouro, Integer numero, String cidade, String estado) {
+        this.logradouro = logradouro;
+        this.numero = numero;
+        this.cidade = cidade;
+        this.estado = estado;
     }
 }

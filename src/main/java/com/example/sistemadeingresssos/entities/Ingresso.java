@@ -42,4 +42,8 @@ public class Ingresso {
         this.cliente = cliente;
         cliente.addIngresso(this);
     }
+
+    public void setTotal(Evento evento) {
+        this.total = evento.getValorAtual() + evento.getTaxa();
+    }
 }
