@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -30,9 +31,11 @@ public record ListagemEventoDTO(
         String local,
 
         @NotNull(message = "Campo valor atual é obrigatório")
-        Double valorAtual
+        Double valorAtual,
+
+        byte[] imagemDestaque
 ) {
     public ListagemEventoDTO(Evento evento) {
-        this(evento.getId(), evento.getNome(), evento.getData(), evento.getHorario(), evento.getLocal(), evento.getValorAtual());
+        this(evento.getId(), evento.getNome(), evento.getData(), evento.getHorario(), evento.getLocal(), evento.getValorAtual(), (evento.getImagemPrincipal() == null) ? null : evento.getImagemPrincipal().getBase64());
     }
 }

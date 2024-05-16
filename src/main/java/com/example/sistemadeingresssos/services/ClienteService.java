@@ -5,7 +5,6 @@ import com.example.sistemadeingresssos.entities.Ingresso;
 import com.example.sistemadeingresssos.repositories.ClienteRepository;
 import com.example.sistemadeingresssos.repositories.EnderecoRepository;
 import com.example.sistemadeingresssos.rest.dtos.SalvarClienteDTO;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,12 +15,10 @@ public class ClienteService {
 
     private final EnderecoRepository enderecoRepository;
     private ClienteRepository repository;
-    private final ModelMapper modelMapper;
 
-    public ClienteService(ClienteRepository repository, EnderecoRepository enderecoRepository, ModelMapper modelMapper) {
+    public ClienteService(ClienteRepository repository, EnderecoRepository enderecoRepository) {
         this.repository = repository;
         this.enderecoRepository = enderecoRepository;
-        this.modelMapper = modelMapper;
     }
 
     public SalvarClienteDTO save(SalvarClienteDTO salvarClienteDTO) {
@@ -68,6 +65,10 @@ public class ClienteService {
     public Cliente findByIdIngresso(Integer id){
         Optional<Cliente> cliente = repository.findById(id);
         return cliente.orElse(null);
+    }
+
+    public Boolean existsByCPF(String cpf) {
+        return repository.existsByCpf(cpf);
     }
 
     public void addIngresso(Ingresso ingresso, Cliente cliente){

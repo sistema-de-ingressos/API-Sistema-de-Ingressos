@@ -16,19 +16,30 @@ public class Ingresso {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @NotNull(message = "Campo id cliente obrigatório")
+
+    @NotNull(message = "Cliente obrigatório")
+    @ManyToOne(cascade = CascadeType.ALL)
     private Cliente cliente;
-    @NotNull(message = "Campo id evento obrigatório")
+
+    @NotNull(message = "Evento obrigatório")
+    @ManyToOne(cascade = CascadeType.ALL)
     private Evento evento;
+
     @NotNull(message = "Campo lote comprado obrigatório")
     private Integer loteComprado;
+
     private Double total;
-    private Double taxa;
 
     public Ingresso(SalvarIngressoDTO salvarIngressoDTO, Cliente cliente, Evento evento) {
-        this.cliente = new Cliente();
-        this.evento = new Evento();
+        this.setCliente(cliente);
+        this.setEvento(evento);
         this.total = salvarIngressoDTO.total();
-        this.taxa = salvarIngressoDTO.taxa();
+        this.loteComprado = evento.getLoteAtual();
+
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+        cliente.addIngresso(this);
     }
 }

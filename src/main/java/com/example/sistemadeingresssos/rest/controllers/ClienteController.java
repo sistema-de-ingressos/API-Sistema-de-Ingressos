@@ -6,7 +6,6 @@ import com.example.sistemadeingresssos.repositories.EnderecoRepository;
 import com.example.sistemadeingresssos.rest.dtos.SalvarClienteDTO;
 import com.example.sistemadeingresssos.services.ClienteService;
 import jakarta.validation.Valid;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,12 +18,10 @@ public class ClienteController {
     private ClienteRepository repository;
     private EnderecoRepository enderecoRepository;
     private ClienteService service;
-    private final ModelMapper modelMapper;
 
-    public ClienteController(ClienteRepository repository, ClienteService service, ModelMapper modelMapper) {
+    public ClienteController(ClienteRepository repository, ClienteService service) {
         this.service = service;
         this.repository = repository;
-        this.modelMapper = modelMapper;
     }
 
     @PostMapping
@@ -36,6 +33,7 @@ public class ClienteController {
 
     }
 
+    // Retornar DTO
     @GetMapping
     public ResponseEntity<List<Cliente>> listarClientes(){
         List<Cliente> clientes = service.findAll();

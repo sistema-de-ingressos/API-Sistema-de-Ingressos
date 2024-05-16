@@ -1,6 +1,7 @@
 package com.example.sistemadeingresssos.rest.controllers;
 
 import com.example.sistemadeingresssos.entities.Evento;
+import com.example.sistemadeingresssos.entities.EventoImagem;
 import com.example.sistemadeingresssos.repositories.EventoRepository;
 import com.example.sistemadeingresssos.rest.dtos.DetalheEventoDTO;
 import com.example.sistemadeingresssos.rest.dtos.ListagemEventoDTO;
@@ -10,6 +11,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -17,10 +19,11 @@ import java.util.List;
 @RequestMapping(value = "/eventos")
 public class EventoController {
 
-    @Autowired
-    private EventoService service;
-    @Autowired
-    private EventoRepository repository;
+    private final EventoService service;
+
+    public EventoController(EventoService service) {
+        this.service = service;
+    }
 
     @PostMapping
     public ResponseEntity criarEvento(@RequestBody @Valid SalvarEventoDTO evento) {
@@ -52,10 +55,10 @@ public class EventoController {
         return ResponseEntity.ok().body(list);
     }
 
-//    @PostMapping(value = "/{id}/upload-imagem")
-//    public ResponseEntity<EventoImagem> uploadEventoImagem(@RequestParam("imagem") MultipartFile multipartFile, @PathVariable Integer id){
-//        EventoImagem imagem = service.uploadImagem(multipartFile, id);
-//        return ResponseEntity.ok(imagem);
-//    }
+    @PostMapping(value = "/{id}/upload-imagem")
+    public ResponseEntity<ListagemEventoDTO> uploadEventoImagem(@RequestParam("imagem") MultipartFile multipartFile, @PathVariable Integer id){
+        EventoImagem eventoImagem = service.uploadImagem(multipartFile, id);
+        return ResponseEntity.ok(new ListagemEventoDTO(eventoImagem.getEvento()));
+    }
 
 }

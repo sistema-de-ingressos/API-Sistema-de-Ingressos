@@ -19,6 +19,8 @@ public class Endereco {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @NotEmpty(message = "Campo obrigatório!")
     private String logradouro;
     @NotEmpty(message = "Campo obrigatório!")
     private String cep;
@@ -28,7 +30,7 @@ public class Endereco {
     private String cidade;
     @NotEmpty(message = "Campo obrigatório!")
     private String estado;
-    @NotEmpty(message = "Campo obrigatório")
+
     private Integer numero;
     private String complemento;
 

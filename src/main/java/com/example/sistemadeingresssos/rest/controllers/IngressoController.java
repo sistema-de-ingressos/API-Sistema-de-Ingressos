@@ -6,7 +6,7 @@ import com.example.sistemadeingresssos.rest.dtos.CarrinhoIngressoDTO;
 import com.example.sistemadeingresssos.rest.dtos.RetornarIngressoDTO;
 import com.example.sistemadeingresssos.rest.dtos.SalvarIngressoDTO;
 import com.example.sistemadeingresssos.services.EventoService;
-import com.example.sistemadeingresssos.services.TrasacaoService;
+import com.example.sistemadeingresssos.services.TransacaoService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,17 +17,17 @@ import java.util.List;
 @RequestMapping(value = "/ingressos")
 public class IngressoController {
 
-    private TrasacaoService service;
+    private TransacaoService service;
     private EventoService eventoService;
 
-    public IngressoController(TrasacaoService service, EventoService eventoService) {
+    public IngressoController(TransacaoService service, EventoService eventoService) {
         this.service = service;
         this.eventoService = eventoService;
     }
 
     @PostMapping
-    public ResponseEntity save(@RequestBody @Valid SalvarIngressoDTO salvarIngressoDTO, Cliente cliente){
-        SalvarIngressoDTO ingresso = service.save(salvarIngressoDTO, cliente);
+    public ResponseEntity save(@RequestBody @Valid SalvarIngressoDTO salvarIngressoDTO){
+        RetornarIngressoDTO ingresso = service.save(salvarIngressoDTO);
         return ResponseEntity.ok().body(ingresso);
     }
 
@@ -41,7 +41,7 @@ public class IngressoController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity findById(@PathVariable Integer id){
-        SalvarIngressoDTO ingresso = service.findIngressoDTOByID(id);
+        RetornarIngressoDTO ingresso = new RetornarIngressoDTO(service.findIngressoByID(id));
         return ResponseEntity.ok(ingresso);
     }
 

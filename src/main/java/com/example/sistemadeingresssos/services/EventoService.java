@@ -1,11 +1,15 @@
 package com.example.sistemadeingresssos.services;
 
 import com.example.sistemadeingresssos.entities.Evento;
+import com.example.sistemadeingresssos.entities.EventoImagem;
+import com.example.sistemadeingresssos.repositories.EventoImagemRepository;
 import com.example.sistemadeingresssos.repositories.EventoRepository;
+import com.example.sistemadeingresssos.rest.dtos.ListagemEventoDTO;
 import com.example.sistemadeingresssos.rest.dtos.SalvarEventoDTO;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -13,10 +17,11 @@ import java.util.List;
 public class EventoService {
 
     private EventoRepository repository;
-//    private EventoImagemRepository imagemRepository;
+    private EventoImagemRepository imagemRepository;
 
-    public EventoService(EventoRepository repository) {
+    public EventoService(EventoRepository repository, EventoImagemRepository eventoImagemRepository) {
         this.repository = repository;
+        this.imagemRepository = eventoImagemRepository;
     }
 
     public List<Evento> findAll(){
@@ -24,8 +29,7 @@ public class EventoService {
     }
 
     public Evento findById(Integer id){
-        Evento evento = repository.getReferenceById(id);
-        return evento;
+        return repository.getReferenceById(id);
     }
 
     public Evento save(SalvarEventoDTO eventoDTO){
@@ -38,7 +42,7 @@ public class EventoService {
 
     public List<Evento> findAllByFiltro(String filtro){
         Evento eventoExemplo = new Evento();
-        eventoExemplo.setNome(filtro); // Preencha outros campos relevantes, se necessário
+        eventoExemplo.setNome(filtro);
 
         ExampleMatcher matcher = ExampleMatcher
                 .matching()
@@ -49,11 +53,11 @@ public class EventoService {
         return repository.findAll(example);
     }
 
-//    public EventoImagem uploadImagem(MultipartFile multipartFile, Integer id){
-//        Evento evento = repository.getReferenceById(id);
-//        EventoImagem eventoImagem = new EventoImagem(multipartFile, evento);
-//        return imagemRepository.save(eventoImagem);
-//    }
+    public EventoImagem uploadImagem(MultipartFile multipartFile, Integer id){
+        Evento evento = repository.getReferenceById(id);
+        EventoImagem eventoImagem = new EventoImagem(multipartFile, evento);
+        return imagemRepository.save(eventoImagem);
+    }
 
 }
 

@@ -3,19 +3,23 @@ package com.example.sistemadeingresssos.entities;
 import com.example.sistemadeingresssos.rest.dtos.RetornarIngressoDTO;
 import com.example.sistemadeingresssos.rest.dtos.SalvarEventoDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.annotation.PostConstruct;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Evento {
 
     @Id
@@ -44,20 +48,22 @@ public class Evento {
     @NotNull(message = "Campo valor atual é obrigatório")
     private Double valorAtual;
 
+    // Sempre utilizar setValorAtual para atualizar a taxa
+    // Taxa deve ficar em evento já que depende do valor de evento, não tem conexão com ingresso
+    private Double taxa;
+
+
     @NotNull(message = "Campo quantiadade máxima é obrigatório")
     private Integer quantidadeMax;
 
     @NotNull(message = "Campo quantidade atual é obrigatório")
     private Integer quantidadeAtual;
 
-//    @OneToOne
-//    private EventoImagem imagemPrincipal;
-//
-//    private List<EventoImagem> imagens = new ArrayList<>();
+    @OneToOne
+    private EventoImagem imagemPrincipal;
 
-    public Evento() {
-
-    }
+    @OneToMany(mappedBy = "evento")
+    private List<EventoImagem> imagens = new ArrayList<>();
 
     public Evento(String nome, String descricao, LocalDate data, String local, Integer loteAtual, Double valorAtual, Integer quantidadeMax, Integer quantidadeAtual) {
         this.nome = nome;
@@ -65,7 +71,7 @@ public class Evento {
         this.data = data;
         this.local = local;
         this.loteAtual = loteAtual;
-        this.valorAtual = valorAtual;
+        this.setValorAtual(valorAtual);
         this.quantidadeMax = quantidadeMax;
         this.quantidadeAtual = quantidadeAtual;
     }
@@ -77,7 +83,7 @@ public class Evento {
         this.horario = eventoDTO.horario();
         this.local = eventoDTO.local();
         this.loteAtual = eventoDTO.loteAtual();
-        this.valorAtual = eventoDTO.valorAtual();
+        this.setValorAtual(eventoDTO.valorAtual());
         this.quantidadeMax = eventoDTO.quantidadeMax();
         this.quantidadeAtual = eventoDTO.quantidadeAtual();
     }
@@ -85,6 +91,11 @@ public class Evento {
     public Evento(RetornarIngressoDTO ingressoDTO) {
         this.nome = ingressoDTO.nomeDoEvento();
         this.data = ingressoDTO.dataDoEvento();
-        this.valorAtual = ingressoDTO.preco();
+        this.setValorAtual(ingressoDTO.preco());
+    }
+
+    public void setValorAtual(Double valorAtual) {
+        this.valorAtual = valorAtual;
+        this.taxa = valorAtual * 0.1;
     }
 }
