@@ -58,6 +58,7 @@ public class EventoService {
         EventoImagem eventoImagem = new EventoImagem(multipartFile, evento);
         evento.setImagens(eventoImagem);
         evento.setImagemPrincipal(evento.getImagens().getFirst());
+
         return imagemRepository.save(eventoImagem);
     }
 

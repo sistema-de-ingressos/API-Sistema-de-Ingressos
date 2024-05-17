@@ -50,11 +50,13 @@ public class TransacaoService {
 
     public Ingresso findIngressoByID(Integer id){
         Ingresso ingresso = repository.getReferenceById(id);
+
         return ingresso;
     }
 
     public List<RetornarIngressoDTO> findIngressoByCpf(String cpf){
         Cliente cliente = clienteService.findClienteByCpf(cpf);
+
         return cliente.getIngressos().stream().map(RetornarIngressoDTO::new).toList();
     }
 
@@ -64,6 +66,7 @@ public class TransacaoService {
 
     public CarrinhoIngressoDTO carrinho(Integer idDoIngresso){
         Ingresso ingresso = findIngressoByID(idDoIngresso);
+
         return new CarrinhoIngressoDTO(ingresso);
     }
 

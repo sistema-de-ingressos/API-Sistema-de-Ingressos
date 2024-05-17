@@ -13,19 +13,15 @@ import java.util.Optional;
 @Service
 public class ClienteService {
 
-    private final EnderecoRepository enderecoRepository;
     private ClienteRepository repository;
 
-    public ClienteService(ClienteRepository repository, EnderecoRepository enderecoRepository) {
+    public ClienteService(ClienteRepository repository) {
         this.repository = repository;
-        this.enderecoRepository = enderecoRepository;
     }
 
     public SalvarClienteDTO save(SalvarClienteDTO salvarClienteDTO) {
         Cliente cliente = new Cliente(salvarClienteDTO);
-
         Cliente clienteSalvo = repository.save(cliente);
-
         SalvarClienteDTO clienteSalvoDTO = new SalvarClienteDTO(clienteSalvo);
 
         return clienteSalvoDTO;
@@ -33,9 +29,7 @@ public class ClienteService {
 
     public Cliente updateListaIngresso(Integer clienteId, Cliente clienteAtualizado) {
         Cliente clienteExistente = findByIdIngresso(clienteId);
-
         clienteExistente.setIngressos(clienteAtualizado.getIngressos());
-
         Cliente clienteAtualizado1 = repository.save(clienteExistente);
 
         return clienteAtualizado1;
@@ -47,23 +41,27 @@ public class ClienteService {
 
     public SalvarClienteDTO findById(Integer id){
         Optional<Cliente> clienteOptional = repository.findById(id);
+
         return clienteOptional.map(SalvarClienteDTO::new)
                 .orElse(null);
     }
 
     public SalvarClienteDTO findByCpf(String cpf){
         Optional<Cliente> clienteOptional = repository.findByCpf(cpf);
+
         return clienteOptional.map(cliente -> new SalvarClienteDTO(cliente))
                 .orElse(null);
     }
 
     public Cliente findClienteByCpf(String cpf){
         Optional<Cliente> clienteOptional = repository.findByCpf(cpf);
+
         return clienteOptional.get();
     }
 
     public Cliente findByIdIngresso(Integer id){
         Optional<Cliente> cliente = repository.findById(id);
+
         return cliente.orElse(null);
     }
 
@@ -71,8 +69,5 @@ public class ClienteService {
         return repository.existsByCpf(cpf);
     }
 
-    public void addIngresso(Ingresso ingresso, Cliente cliente){
-        cliente.getIngressos().add(ingresso);
-    }
 }
 

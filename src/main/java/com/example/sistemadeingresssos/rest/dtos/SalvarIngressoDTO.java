@@ -36,7 +36,5 @@ public record SalvarIngressoDTO(
 
         Double total
         ) {
-    public SalvarIngressoDTO(Ingresso ingresso, Cliente cliente, Endereco endereco){
-        this(cliente.getCpf(), cliente.getNome(), cliente.getDataDeNascimento(), new EnderecoDTO(endereco), ingresso.getEvento().getId(), ingresso.getTotal());
-    }
+
 }
