@@ -56,9 +56,19 @@ public class EventoController {
     }
 
     @PostMapping(value = "/{id}/upload-imagem")
-    public ResponseEntity<ListagemEventoDTO> uploadEventoImagem(@RequestParam("imagem") MultipartFile multipartFile, @PathVariable Integer id){
+    public ResponseEntity<ListagemEventoDTO> uploadEventoImagem(@RequestParam("imagem") MultipartFile multipartFile, @PathVariable Integer id) {
+        if (!isImageFile(multipartFile)) {
+            // Se não for uma imagem válida, retorne uma resposta de erro (status 400 Bad Request)
+            return ResponseEntity.badRequest().build();
+        }
+
         EventoImagem eventoImagem = service.uploadImagem(multipartFile, id);
         return ResponseEntity.ok(new ListagemEventoDTO(eventoImagem.getEvento()));
+    }
+
+    private boolean isImageFile(MultipartFile file) {
+        String filename = file.getOriginalFilename();
+        return filename != null && (filename.endsWith(".jpg") || filename.endsWith(".jpeg") || filename.endsWith(".png"));
     }
 
 }
