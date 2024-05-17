@@ -6,9 +6,6 @@ import com.example.sistemadeingresssos.entities.Ingresso;
 import java.time.LocalDate;
 
 public record RetornarIngressoDTO(String nomeDoEvento, LocalDate dataDoEvento, Double preco) {
-    public RetornarIngressoDTO(Evento evento) {
-        this(evento.getNome(), evento.getData(), evento.getValorAtual());
-    }
 
     public RetornarIngressoDTO(Ingresso ingresso) {
         this(ingresso.getEvento().getNome(), ingresso.getEvento().getData(), ingresso.getTotal());

@@ -33,7 +33,7 @@ public class Ingresso {
     public Ingresso(SalvarIngressoDTO salvarIngressoDTO, Cliente cliente, Evento evento) {
         this.setCliente(cliente);
         this.setEvento(evento);
-        this.total = salvarIngressoDTO.total();
+        this.setTotal(evento);
         this.loteComprado = evento.getLoteAtual();
 
     }
