@@ -1,9 +1,11 @@
 package com.example.sistemadeingresssos.rest.controllers;
 
+import com.example.sistemadeingresssos.exceptions.ClienteNaoEncontradoException;
 import com.example.sistemadeingresssos.exceptions.EventoException;
 import com.example.sistemadeingresssos.exceptions.IngressoNaoEncontradoException;
 import com.example.sistemadeingresssos.rest.ApiErros;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -36,4 +38,5 @@ public class AdviceController {
                 .collect(Collectors.toList());
         return new ApiErros(errors);
     }
+
 }

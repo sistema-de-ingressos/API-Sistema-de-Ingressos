@@ -1,7 +1,7 @@
 package com.example.sistemadeingresssos.exceptions;
 
 public class EventoException extends RuntimeException{
-    public EventoException(String message) {
-        super(message);
+    public EventoException() {
+        super("Evento não encontrado.");
     }
 }
