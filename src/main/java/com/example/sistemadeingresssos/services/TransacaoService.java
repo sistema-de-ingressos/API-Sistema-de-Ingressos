@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class TransacaoService {
@@ -44,11 +45,13 @@ public class TransacaoService {
         return new RetornarIngressoDTO(ingresso);
     }
 
+
+
     public void delete(Ingresso ingresso){
         repository.delete(ingresso);
     }
 
-    public Ingresso findIngressoByID(Integer id){
+    public Ingresso findIngressoByID(UUID id){
         Ingresso ingresso = repository.getReferenceById(id);
 
         return ingresso;
@@ -64,7 +67,7 @@ public class TransacaoService {
         return repository.findAll();
     }
 
-    public CarrinhoIngressoDTO carrinho(Integer idDoIngresso){
+    public CarrinhoIngressoDTO carrinho(UUID idDoIngresso){
         Ingresso ingresso = findIngressoByID(idDoIngresso);
 
         return new CarrinhoIngressoDTO(ingresso);
