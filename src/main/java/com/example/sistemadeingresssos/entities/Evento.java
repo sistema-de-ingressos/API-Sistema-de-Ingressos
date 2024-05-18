@@ -1,5 +1,6 @@
 package com.example.sistemadeingresssos.entities;
 
+import com.example.sistemadeingresssos.enums.EventoStatus;
 import com.example.sistemadeingresssos.rest.dtos.RetornarIngressoDTO;
 import com.example.sistemadeingresssos.rest.dtos.SalvarEventoDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -53,7 +54,6 @@ public class Evento {
     // Taxa deve ficar em evento já que depende do valor de evento, não tem conexão com ingresso
     private Double taxa;
 
-
     @NotNull(message = "Campo quantiadade máxima é obrigatório")
     private Integer quantidadeMax;
 
@@ -66,7 +66,12 @@ public class Evento {
     @OneToMany(mappedBy = "evento")
     private List<EventoImagem> imagens = new ArrayList<>();
 
-    public Evento(String nome, String descricao, LocalDate data, String local, Integer loteAtual, Double valorAtual, Integer quantidadeMax, Integer quantidadeAtual) {
+    @NotNull(message = "Campo status obrigatório")
+    @Enumerated(EnumType.STRING)
+    private EventoStatus status;
+
+
+    public Evento(String nome, String descricao, LocalDate data, String local, Integer loteAtual, Double valorAtual, Integer quantidadeMax, Integer quantidadeAtual, EventoStatus status) {
         this.nome = nome;
         this.descricao = descricao;
         this.data = data;
@@ -75,6 +80,7 @@ public class Evento {
         this.setValorAtual(valorAtual);
         this.quantidadeMax = quantidadeMax;
         this.quantidadeAtual = quantidadeAtual;
+        this.status = status;
     }
 
     public Evento(SalvarEventoDTO eventoDTO) {
@@ -87,6 +93,7 @@ public class Evento {
         this.setValorAtual(eventoDTO.valorAtual());
         this.quantidadeMax = eventoDTO.quantidadeMax();
         this.quantidadeAtual = eventoDTO.quantidadeAtual();
+        this.status = eventoDTO.status();
     }
 
     public Evento(RetornarIngressoDTO ingressoDTO) {

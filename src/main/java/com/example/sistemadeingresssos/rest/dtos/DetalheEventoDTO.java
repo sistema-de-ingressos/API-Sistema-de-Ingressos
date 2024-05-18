@@ -2,10 +2,9 @@ package com.example.sistemadeingresssos.rest.dtos;
 
 import com.example.sistemadeingresssos.entities.Evento;
 import com.example.sistemadeingresssos.entities.EventoImagem;
+import com.example.sistemadeingresssos.enums.EventoStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
@@ -38,15 +37,22 @@ public record DetalheEventoDTO(
         @NotNull(message = "Campo lote atual é obrigatório")
         Integer loteAtual,
 
-        Double atual, @NotNull(message = "Campo valor atual é obrigatório")
+        Double atual,
+
+        @NotNull(message = "Campo valor atual é obrigatório")
         Double valorAtual,
+
+        @NotNull(message = "Campo status é obrigatório")
+        @Enumerated(EnumType.STRING)
+        EventoStatus status,
 
         List<byte[]> imagens
 ) {
     public DetalheEventoDTO(Evento evento) {
         this(evento.getId(), evento.getNome(), evento.getDescricao(),
                 evento.getData(), evento.getHorario(), evento.getLocal(),
-                evento.getLoteAtual(), evento.getValorAtual(), evento.getValorAtual(),getBase64Images(evento.getImagens()));
+                evento.getLoteAtual(), evento.getValorAtual(), evento.getValorAtual(),
+                evento.getStatus(),getBase64Images(evento.getImagens()));
     }
 
     private static List<byte[]> getBase64Images(List<EventoImagem> imagens) {

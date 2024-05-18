@@ -2,6 +2,7 @@ package com.example.sistemadeingresssos.rest.controllers;
 
 import com.example.sistemadeingresssos.entities.Evento;
 import com.example.sistemadeingresssos.entities.EventoImagem;
+import com.example.sistemadeingresssos.enums.EventoStatus;
 import com.example.sistemadeingresssos.repositories.EventoRepository;
 import com.example.sistemadeingresssos.rest.dtos.DetalheEventoDTO;
 import com.example.sistemadeingresssos.rest.dtos.ListagemEventoDTO;
@@ -15,7 +16,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/eventos")
@@ -44,11 +48,29 @@ public class EventoController {
     }
 
     @GetMapping
-    @Operation(summary = "Lista os eventos disponíveis", tags = {"Criação e listagem de eventos"})
-    public ResponseEntity<List<ListagemEventoDTO>> listarEventos() {
-        List<ListagemEventoDTO> eventos = service.findAll().stream().map(ListagemEventoDTO::new).toList();
+    @Operation(summary = "Lista os eventos disponíveis recentes", tags = {"Criação e listagem de eventos"})
+    public ResponseEntity<List<ListagemEventoDTO>> listarEventosRecentes() {
+        LocalDate dataAtual = LocalDate.now();
+
+        List<ListagemEventoDTO> eventosFuturos = service.findAll().stream()
+                .filter(evento -> evento.getData().isAfter(dataAtual)) // Filtra eventos futuros
+                .map(ListagemEventoDTO::new)
+                .sorted(Comparator.comparing(ListagemEventoDTO::data))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(eventosFuturos);
+    }
+
+    @GetMapping("/quaseLotados")
+    @Operation(summary = "Lista os eventos quase lotados", tags = {"Criação e listagem de eventos"})
+    public ResponseEntity<List<ListagemEventoDTO>> listarEventosQuaseLotados() {
+        List<ListagemEventoDTO> eventos = service.findAll().stream()
+                .filter(evento -> evento.getStatus() == EventoStatus.QUASE_LOTADO)
+                .map(ListagemEventoDTO::new)
+                .toList();
         return ResponseEntity.ok(eventos);
     }
+
 
     @GetMapping(value = "/{id}")
     @Operation(hidden = true)

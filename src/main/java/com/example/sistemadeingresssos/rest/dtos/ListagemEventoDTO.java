@@ -1,10 +1,9 @@
 package com.example.sistemadeingresssos.rest.dtos;
 
 import com.example.sistemadeingresssos.entities.Evento;
+import com.example.sistemadeingresssos.enums.EventoStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
@@ -34,9 +33,15 @@ public record ListagemEventoDTO(
         @NotNull(message = "Campo valor atual é obrigatório")
         Double valorAtual,
 
+        @NotNull(message = "Campo status é obrigatório")
+        @Enumerated(EnumType.STRING)
+        EventoStatus status,
+
         byte[] imagemDestaque
 ) {
     public ListagemEventoDTO(Evento evento) {
-        this(evento.getId(), evento.getNome(), evento.getData(), evento.getHorario(), evento.getLocal(), evento.getValorAtual(), (evento.getImagemPrincipal() == null) ? null : evento.getImagemPrincipal().getBase64());
+        this(evento.getId(), evento.getNome(), evento.getData(),
+                evento.getHorario(), evento.getLocal(), evento.getValorAtual(), evento.getStatus(),
+                (evento.getImagemPrincipal() == null) ? null : evento.getImagemPrincipal().getBase64());
     }
 }
