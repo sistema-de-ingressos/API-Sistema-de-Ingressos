@@ -1,7 +1,5 @@
 package com.example.sistemadeingresssos.rest.dtos;
 
-import com.example.sistemadeingresssos.entities.Evento;
-import com.example.sistemadeingresssos.entities.EventoImagem;
 import com.example.sistemadeingresssos.entities.Ingresso;
 import com.fasterxml.jackson.annotation.JsonFormat;
 

@@ -26,9 +26,6 @@ public class Cliente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(unique = true)
-    @NotEmpty(message = "Campo CPF obrigatório!")
-    @CPF(message = "Informe um CPF válido.")
     private String cpf;
 
     @NotEmpty(message = "Campo nome obrigatório!")

@@ -6,15 +6,19 @@ import com.example.sistemadeingresssos.rest.dtos.CarrinhoIngressoDTO;
 import com.example.sistemadeingresssos.rest.dtos.RetornarIngressoDTO;
 import com.example.sistemadeingresssos.rest.dtos.SalvarIngressoDTO;
 import com.example.sistemadeingresssos.services.EventoService;
+import com.example.sistemadeingresssos.services.QrCodeService;
 import com.example.sistemadeingresssos.services.TransacaoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/ingressos")
@@ -23,9 +27,11 @@ import java.util.List;
 public class IngressoController {
 
     private TransacaoService service;
+    private QrCodeService qrCodeService;
 
-    public IngressoController(TransacaoService service) {
+    public IngressoController(TransacaoService service, QrCodeService qrCodeService) {
         this.service = service;
+        this.qrCodeService = qrCodeService;
     }
 
     @PostMapping
@@ -37,7 +43,7 @@ public class IngressoController {
 
     @DeleteMapping(value = "/{id}")
     @Operation(hidden = true)
-    public ResponseEntity delete(@PathVariable Integer id){
+    public ResponseEntity delete(@PathVariable UUID id){
         Ingresso ingresso = service.findIngressoByID(id);
         service.delete(ingresso);
 
@@ -46,7 +52,7 @@ public class IngressoController {
 
     @GetMapping(value = "/{id}")
     @Operation(hidden = true)
-    public ResponseEntity findById(@PathVariable Integer id){
+    public ResponseEntity findById(@PathVariable UUID id){
         RetornarIngressoDTO ingresso = new RetornarIngressoDTO(service.findIngressoByID(id));
         return ResponseEntity.ok(ingresso);
     }
@@ -60,9 +66,25 @@ public class IngressoController {
 
     @GetMapping(value = "/carrinho/{idDoIngresso}")
     @Operation(summary = "Retorna o carrinho de compra", tags = {"Compra de ingressos"})
-    public ResponseEntity<CarrinhoIngressoDTO> carrinho(@PathVariable Integer idDoIngresso){
+    public ResponseEntity<CarrinhoIngressoDTO> carrinho(@PathVariable UUID idDoIngresso){
         CarrinhoIngressoDTO carrinhoIngressoDTO = service.carrinho(idDoIngresso);
         return ResponseEntity.ok(carrinhoIngressoDTO);
     }
+
+    @GetMapping(value = "/qrcode/{idDoIngresso}", produces = MediaType.IMAGE_PNG_VALUE)
+    @Operation(summary = "Retorna o QR Code do ingresso", tags = {"Compra de ingressos"})
+    public ResponseEntity<byte[]> gerarQRCode(@PathVariable UUID idDoIngresso) {
+        // Chamando o serviço para gerar o código QR com base no ID do ingresso
+        byte[] qrCodeBytes = qrCodeService.gerarQRCodeBytesFromIngressoId(idDoIngresso);
+
+        if (qrCodeBytes != null) {
+            // Retornar a imagem QR code diretamente
+            return ResponseEntity.ok().body(qrCodeBytes);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+
 
 }
