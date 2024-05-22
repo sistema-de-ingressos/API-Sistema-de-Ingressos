@@ -7,6 +7,7 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -34,6 +35,13 @@ public class QrCodeService {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public String getUrlLink(UUID idDoIngresso) {
+        return ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/ingressos/qrcode/")
+                .path(idDoIngresso.toString())
+                .toUriString();
     }
 
 }

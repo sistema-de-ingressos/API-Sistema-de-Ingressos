@@ -21,11 +21,13 @@ public class TransacaoService {
     private IngressoRepository repository;
     private ClienteService clienteService;
     private EventoService eventoService;
+    private QrCodeService qrCodeService;
 
-    public TransacaoService(IngressoRepository repository, ClienteService service, EventoService eventoService) {
+    public TransacaoService(IngressoRepository repository, ClienteService service, EventoService eventoService, QrCodeService qrCodeService) {
         this.repository = repository;
         this.clienteService = service;
         this.eventoService = eventoService;
+        this.qrCodeService = qrCodeService;
     }
 
     public RetornarIngressoDTO save(SalvarIngressoDTO salvarIngressoDTO){
@@ -40,6 +42,10 @@ public class TransacaoService {
         }
 
         Ingresso ingresso = new Ingresso(ingressoDTO, cliente, evento);
+        repository.save(ingresso);
+
+        String qrCodeUrl = qrCodeService.getUrlLink(ingresso.getId());
+        ingresso.setUrl(qrCodeUrl);
         repository.save(ingresso);
 
         return new RetornarIngressoDTO(ingresso);

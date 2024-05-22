@@ -32,6 +32,8 @@ public class Ingresso {
 
     private Double total;
 
+    private String url;
+
     public Ingresso(SalvarIngressoDTO salvarIngressoDTO, Cliente cliente, Evento evento) {
         this.setCliente(cliente);
         this.setEvento(evento);

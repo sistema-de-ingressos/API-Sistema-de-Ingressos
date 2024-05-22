@@ -1,9 +1,8 @@
 package com.example.sistemadeingresssos.services;
 
 import com.example.sistemadeingresssos.entities.Cliente;
-import com.example.sistemadeingresssos.entities.Ingresso;
 import com.example.sistemadeingresssos.repositories.ClienteRepository;
-import com.example.sistemadeingresssos.repositories.EnderecoRepository;
+import com.example.sistemadeingresssos.rest.dtos.RetornarClienteDTO;
 import com.example.sistemadeingresssos.rest.dtos.SalvarClienteDTO;
 import org.springframework.stereotype.Service;
 
@@ -50,6 +49,13 @@ public class ClienteService {
         Optional<Cliente> clienteOptional = repository.findByCpf(cpf);
 
         return clienteOptional.map(cliente -> new SalvarClienteDTO(cliente))
+                .orElse(null);
+    }
+
+    public RetornarClienteDTO returnByCpf(String cpf){
+        Optional<Cliente> clienteOptional = repository.findByCpf(cpf);
+
+        return clienteOptional.map(cliente -> new RetornarClienteDTO(clienteOptional.get()))
                 .orElse(null);
     }
 
