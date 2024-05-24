@@ -22,6 +22,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "EVENTOS")
 public class Evento {
 
     @Id
@@ -45,22 +46,28 @@ public class Evento {
     private String local;
 
     @NotNull(message = "Campo lote atual é obrigatório")
+    @Column(name = "lote_atual")
     private Integer loteAtual;
 
     @NotNull(message = "Campo valor atual é obrigatório")
+    @Column(name = "valor_atual")
     private Double valorAtual;
 
     // Sempre utilizar setValorAtual para atualizar a taxa
     // Taxa deve ficar em evento já que depende do valor de evento, não tem conexão com ingresso
+    @Column(name = "taxa")
     private Double taxa;
 
     @NotNull(message = "Campo quantiadade máxima é obrigatório")
+    @Column(name = "quantidade_max")
     private Integer quantidadeMax;
 
     @NotNull(message = "Campo quantidade atual é obrigatório")
+    @Column(name = "quantidade_atual")
     private Integer quantidadeAtual;
 
     @OneToOne
+    @PrimaryKeyJoinColumn(name = "imagem", columnDefinition = "LONGBLOB")
     private EventoImagem imagemPrincipal;
 
     @OneToMany(mappedBy = "evento")
@@ -71,10 +78,11 @@ public class Evento {
     private EventoStatus status;
 
 
-    public Evento(String nome, String descricao, LocalDate data, String local, Integer loteAtual, Double valorAtual, Integer quantidadeMax, Integer quantidadeAtual, EventoStatus status) {
+    public Evento(String nome, String descricao, LocalDate data, LocalTime horario, String local, Integer loteAtual, Double valorAtual, Integer quantidadeMax, Integer quantidadeAtual, EventoStatus status) {
         this.nome = nome;
         this.descricao = descricao;
         this.data = data;
+        this.horario = horario;
         this.local = local;
         this.loteAtual = loteAtual;
         this.setValorAtual(valorAtual);

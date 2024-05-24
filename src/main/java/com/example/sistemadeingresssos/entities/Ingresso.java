@@ -13,23 +13,29 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "TRANSACOES_INGRESSO")
 public class Ingresso {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(columnDefinition = "BINARY(16)")
     private UUID id;
 
     @NotNull(message = "Cliente obrigatório")
     @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "pessoa_id", referencedColumnName = "id")
     private Cliente cliente;
 
     @NotNull(message = "Evento obrigatório")
     @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "evento_id", referencedColumnName = "id")
     private Evento evento;
 
     @NotNull(message = "Campo lote comprado obrigatório")
+    @Column(name = "lote_comprado")
     private Integer loteComprado;
 
+    @Column(name = "valor_pago")
     private Double total;
 
     private String url;

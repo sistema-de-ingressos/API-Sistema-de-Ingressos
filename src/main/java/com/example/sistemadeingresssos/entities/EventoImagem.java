@@ -14,6 +14,7 @@ import java.io.IOException;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "EVENTO_IMAGEM")
 public class EventoImagem {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,13 +22,16 @@ public class EventoImagem {
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @NotNull(message = "Evento é obrigatório")
+    @JoinColumn(name = "evento_id")
     private Evento evento;
 
     @NotEmpty(message = "Imagem deve possuir dado")
     @Lob
+    @Column(name = "imagem", columnDefinition = "LONGBLOB")
     private byte[] base64;
 
     @NotEmpty(message = "Imagem deve possuir tipo")
+    @Column(name = "content_type")
     private String contentType;
 
 

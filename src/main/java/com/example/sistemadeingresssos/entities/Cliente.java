@@ -20,6 +20,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "PESSOAS")
 public class Cliente {
 
     @Id
@@ -33,13 +34,16 @@ public class Cliente {
 
     @JsonFormat(pattern = "dd/MM/yyyy")
     @NotNull(message = "Campo data de nascimento obrigatório")
+    @Column(name = "data_de_nascimento")
     private LocalDate dataDeNascimento;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "endereco_id", referencedColumnName = "id")
     private Endereco endereco;
 
-    @OneToMany(mappedBy = "cliente")
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Ingresso> ingressos = new ArrayList<>();
+
 
     public Cliente(SalvarClienteDTO salvarClienteDTO) {
         this.cpf = salvarClienteDTO.cpf();
