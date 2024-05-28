@@ -61,13 +61,6 @@ public class IngressoController {
         return ResponseEntity.ok(lista);
     }
 
-    @GetMapping(value = "/carrinho/{idDoEvento}")
-    @Operation(summary = "Retorna o carrinho de compra", tags = {"Compra de ingressos"})
-    public ResponseEntity<CarrinhoIngressoDTO> carrinho(@PathVariable Integer idDoEvento){
-        CarrinhoIngressoDTO carrinhoIngressoDTO = service.carrinho(idDoEvento);
-        return ResponseEntity.ok(carrinhoIngressoDTO);
-    }
-
     @GetMapping(value = "/qrcode/{idDoIngresso}", produces = MediaType.IMAGE_PNG_VALUE)
     @Operation(summary = "Retorna o QR Code do ingresso", tags = {"Compra de ingressos"})
     public ResponseEntity<byte[]> gerarQRCode(@PathVariable UUID idDoIngresso) {

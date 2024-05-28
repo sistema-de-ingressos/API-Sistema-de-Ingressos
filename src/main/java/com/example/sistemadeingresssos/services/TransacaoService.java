@@ -69,10 +69,7 @@ public class TransacaoService {
         return repository.findAll();
     }
 
-    public CarrinhoIngressoDTO carrinho(Integer idDoEvento){
-        Evento evento = eventoService.findById(idDoEvento);
-        return new CarrinhoIngressoDTO(evento);
-    }
+
 
 
 }

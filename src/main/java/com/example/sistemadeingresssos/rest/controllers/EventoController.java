@@ -2,6 +2,7 @@ package com.example.sistemadeingresssos.rest.controllers;
 
 import com.example.sistemadeingresssos.entities.Evento;
 import com.example.sistemadeingresssos.entities.EventoImagem;
+import com.example.sistemadeingresssos.rest.dtos.CarrinhoIngressoDTO;
 import com.example.sistemadeingresssos.rest.dtos.DetalheEventoDTO;
 import com.example.sistemadeingresssos.rest.dtos.ListagemEventoDTO;
 import com.example.sistemadeingresssos.rest.dtos.SalvarEventoDTO;
@@ -65,7 +66,8 @@ public class EventoController {
 
     @GetMapping(value = "/buscar/{filtro}")
     @Operation(summary = "Busca evento pelo nome", tags = {"Criação e listagem de eventos"})
-    public ResponseEntity buscarEventos(@PathVariable String filtro) {
+    public ResponseEntity buscarEventos(@RequestParam(value = "filtro", required = false, defaultValue = "") String filtro) {
+        System.out.println(filtro);
         List<ListagemEventoDTO> list = service.findAllByFiltro(filtro).stream().map(ListagemEventoDTO::new).toList();
         return ResponseEntity.ok().body(list);
     }
@@ -85,6 +87,13 @@ public class EventoController {
     private boolean isImageFile(MultipartFile file) {
         String filename = file.getOriginalFilename();
         return filename != null && (filename.endsWith(".jpg") || filename.endsWith(".jpeg") || filename.endsWith(".png"));
+    }
+
+    @GetMapping(value = "/carrinho/{idDoEvento}")
+    @Operation(summary = "Retorna o carrinho de compra", tags = {"Criação e listagem de eventos"})
+    public ResponseEntity<CarrinhoIngressoDTO> carrinho(@PathVariable Integer idDoEvento){
+        CarrinhoIngressoDTO carrinhoIngressoDTO = service.carrinho(idDoEvento);
+        return ResponseEntity.ok(carrinhoIngressoDTO);
     }
 
 }

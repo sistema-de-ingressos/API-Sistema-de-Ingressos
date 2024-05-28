@@ -5,6 +5,7 @@ import com.example.sistemadeingresssos.entities.EventoImagem;
 import com.example.sistemadeingresssos.enums.EventoStatus;
 import com.example.sistemadeingresssos.repositories.EventoImagemRepository;
 import com.example.sistemadeingresssos.repositories.EventoRepository;
+import com.example.sistemadeingresssos.rest.dtos.CarrinhoIngressoDTO;
 import com.example.sistemadeingresssos.rest.dtos.ListagemEventoDTO;
 import com.example.sistemadeingresssos.rest.dtos.SalvarEventoDTO;
 import org.springframework.data.domain.Example;
@@ -45,7 +46,7 @@ public class EventoService {
 
     public List<Evento> findAllByFiltro(String filtro){
         if (filtro == null || filtro.isEmpty()) {
-            return repository.findAll();
+            return findAll();
         } else {
             Evento eventoExemplo = new Evento();
             eventoExemplo.setNome(filtro);
@@ -87,6 +88,11 @@ public class EventoService {
 
         repository.save(evento);
         return imagemRepository.save(eventoImagem);
+    }
+
+    public CarrinhoIngressoDTO carrinho(Integer idDoEvento){
+        Evento evento = findById(idDoEvento);
+        return new CarrinhoIngressoDTO(evento);
     }
 
 }
