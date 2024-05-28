@@ -2,7 +2,6 @@ package com.example.sistemadeingresssos.rest.controllers;
 
 import com.example.sistemadeingresssos.entities.Cliente;
 import com.example.sistemadeingresssos.repositories.ClienteRepository;
-import com.example.sistemadeingresssos.repositories.EnderecoRepository;
 import com.example.sistemadeingresssos.rest.dtos.SalvarClienteDTO;
 import com.example.sistemadeingresssos.services.ClienteService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,7 +29,7 @@ public class ClienteController {
     @PostMapping
     @Operation(summary = "Salva o cliente no sistema", tags = {"Cadastrar cliente"})
     public ResponseEntity salvarCliente(@RequestBody @Valid SalvarClienteDTO salvarClienteDTO) {
-        SalvarClienteDTO salvarClienteDTO1 = service.save(salvarClienteDTO);
+        SalvarClienteDTO salvarClienteDTO1 = service.saveDTO(salvarClienteDTO);
         return ResponseEntity.ok().body(salvarClienteDTO1);
 
     }
