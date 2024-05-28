@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
@@ -37,6 +38,12 @@ public class AdviceController {
                 .map(erro -> erro.getDefaultMessage())
                 .collect(Collectors.toList());
         return new ApiErros(errors);
+    }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ApiErros handleNoSuchElementException(NoSuchElementException ex) {
+        return new ApiErros("CPF não cadastrado no sistema");
     }
 
 }

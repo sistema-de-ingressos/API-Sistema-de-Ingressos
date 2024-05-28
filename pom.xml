@@ -90,12 +90,6 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>8.0.32</version> <!-- Verifique se esta é a versão mais recente -->
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.flywaydb/flyway-core -->
-		<dependency>
-			<groupId>org.flywaydb</groupId>
-			<artifactId>flyway-core</artifactId>
-			<version>10.13.0</version>
-		</dependency>
 	</dependencies>
 
 	<build>

@@ -37,7 +37,7 @@
             CPF VARCHAR(14),
             NOME VARCHAR(60),
             DATA_DE_NASCIMENTO DATE,
-            ENDERECO_ID BIGINT,
+            ENDERECO_ID BIGINT
     );
 
     CREATE TABLE TRANSACOES_INGRESSO (

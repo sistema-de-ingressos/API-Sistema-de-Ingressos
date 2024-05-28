@@ -34,6 +34,11 @@ public class EventoImagem {
     @Column(name = "content_type")
     private String contentType;
 
+    public EventoImagem(Evento evento, @NotEmpty(message = "Imagem deve possuir dado") byte[] base64, String contentType) {
+        this.evento = evento;
+        this.base64 = base64;
+        this.contentType = contentType;
+    }
 
     public EventoImagem(MultipartFile file, Evento evento) {
         try {
