@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(value = "/eventos")
 @Tag(name = "Criação e listagem de eventos", description = "Endpoints que realizam a criação de eventos, listagem e busca dos mesmos")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class EventoController {
 
     private final EventoService service;

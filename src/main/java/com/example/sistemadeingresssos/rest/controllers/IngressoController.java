@@ -23,7 +23,6 @@ import java.util.UUID;
 @RestController
 @RequestMapping(value = "/ingressos")
 @Tag(name = "Compra de ingressos", description = "Endpoints que realizam a compra e busca de ingressos")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class IngressoController {
 
     private TransacaoService service;
