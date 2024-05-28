@@ -16,7 +16,6 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/clientes")
 @Tag(name = "Cadastrar cliente", description = "Endpoints que salvam e buscam os clientes no sistema")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ClienteController {
 
     private ClienteRepository repository;
