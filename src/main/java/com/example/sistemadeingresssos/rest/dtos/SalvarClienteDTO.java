@@ -30,7 +30,7 @@ public record SalvarClienteDTO(
         EnderecoDTO enderecoDTO
 ) {
     public SalvarClienteDTO(Cliente cliente) {
-        this(cliente.getId(), cliente.getNome(), cliente.getCpf(), cliente.getDataDeNascimento(), new EnderecoDTO(cliente.getEndereco()));
+        this(cliente.getId(), cliente.getCpf(), cliente.getNome(), cliente.getDataDeNascimento(), new EnderecoDTO(cliente.getEndereco()));
     }
 
 }
