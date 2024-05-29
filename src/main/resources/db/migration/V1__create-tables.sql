@@ -28,8 +28,7 @@
             ID BIGINT PRIMARY KEY AUTO_INCREMENT,
             EVENTO_ID BIGINT,
             IMAGEM LONGBLOB,
-            CONTENT_TYPE VARCHAR(10),
-            EVENTO_ID BIGINT
+            CONTENT_TYPE VARCHAR(10)
     );
 
     CREATE TABLE PESSOAS (
