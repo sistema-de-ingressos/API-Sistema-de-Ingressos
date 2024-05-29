@@ -64,10 +64,9 @@ public class EventoController {
         return ResponseEntity.ok().body(new DetalheEventoDTO(evento));
     }
 
-    @GetMapping(value = "/buscar/{filtro}")
+    @GetMapping(value = "/buscar")
     @Operation(summary = "Busca evento pelo nome", tags = {"Criação e listagem de eventos"})
     public ResponseEntity buscarEventos(@RequestParam(value = "filtro", required = false, defaultValue = "") String filtro) {
-        System.out.println(filtro);
         List<ListagemEventoDTO> list = service.findAllByFiltro(filtro).stream().map(ListagemEventoDTO::new).toList();
         return ResponseEntity.ok().body(list);
     }
