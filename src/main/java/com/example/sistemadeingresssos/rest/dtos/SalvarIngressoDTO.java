@@ -28,9 +28,7 @@ public record SalvarIngressoDTO(
         EnderecoDTO endereco,
 
         @NotNull(message = "Campo id evento obrigatório")
-        Integer idEvento,
-
-        Double total
+        Integer idEvento
         ) {
 
 }
