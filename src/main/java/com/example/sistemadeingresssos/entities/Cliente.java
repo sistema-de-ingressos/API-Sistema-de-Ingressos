@@ -48,7 +48,7 @@ public class Cliente {
         this.cpf = salvarClienteDTO.cpf();
         this.nome = salvarClienteDTO.nome();
         this.dataDeNascimento = salvarClienteDTO.dataDeNascimento();
-        this.endereco = new Endereco(salvarClienteDTO.enderecoDTO());
+        this.endereco = new Endereco(salvarClienteDTO.endereco());
     }
 
     public Cliente(SalvarIngressoDTO salvarIngressoDTO) {
