@@ -6,13 +6,11 @@ import com.example.sistemadeingresssos.entities.Ingresso;
 import com.example.sistemadeingresssos.repositories.IngressoRepository;
 import com.example.sistemadeingresssos.rest.dtos.CarrinhoIngressoDTO;
 import com.example.sistemadeingresssos.rest.dtos.RetornarIngressoDTO;
-import com.example.sistemadeingresssos.rest.dtos.SalvarClienteDTO;
+import com.example.sistemadeingresssos.rest.dtos.RetornarIngressosClienteDTO;
 import com.example.sistemadeingresssos.rest.dtos.SalvarIngressoDTO;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -38,7 +36,7 @@ public class TransacaoService {
 
         if (clienteService.existsByCPF(cliente.getCpf())) {
             cliente = clienteService.findClienteByCpf(cliente.getCpf());
-            clienteService.save(new SalvarClienteDTO(cliente));
+            clienteService.save(cliente);
         }
 
         Ingresso ingresso = new Ingresso(ingressoDTO, cliente, evento);
@@ -51,8 +49,6 @@ public class TransacaoService {
         return new RetornarIngressoDTO(ingresso);
     }
 
-
-
     public void delete(Ingresso ingresso){
         repository.delete(ingresso);
     }
@@ -63,21 +59,17 @@ public class TransacaoService {
         return ingresso;
     }
 
-    public List<RetornarIngressoDTO> findIngressoByCpf(String cpf){
+    public RetornarIngressosClienteDTO findIngressoByCpf(String cpf){
         Cliente cliente = clienteService.findClienteByCpf(cpf);
 
-        return cliente.getIngressos().stream().map(RetornarIngressoDTO::new).toList();
+        return new RetornarIngressosClienteDTO(cliente);
     }
 
     public List<Ingresso> listarIngressos(){
         return repository.findAll();
     }
 
-    public CarrinhoIngressoDTO carrinho(UUID idDoIngresso){
-        Ingresso ingresso = findIngressoByID(idDoIngresso);
 
-        return new CarrinhoIngressoDTO(ingresso);
-    }
 
 
 }

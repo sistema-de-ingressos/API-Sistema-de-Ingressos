@@ -34,7 +34,6 @@ public class EventoImagem {
     @Column(name = "content_type")
     private String contentType;
 
-
     public EventoImagem(MultipartFile file, Evento evento) {
         try {
             this.base64 = file.getBytes();
@@ -49,4 +48,5 @@ public class EventoImagem {
         this.evento = evento;
         evento.setImagemPrincipal(this);
     }
+
 }

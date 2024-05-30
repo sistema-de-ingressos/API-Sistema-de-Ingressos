@@ -29,6 +29,7 @@ public record DetalheEventoDTO(
         LocalDate data,
 
         @NotNull(message = "Campo horário é obrigatório")
+        @JsonFormat(pattern = "HH:mm")
         LocalTime horario,
 
         @NotEmpty(message = "Campo local é obrigatório")
@@ -36,8 +37,6 @@ public record DetalheEventoDTO(
 
         @NotNull(message = "Campo lote atual é obrigatório")
         Integer loteAtual,
-
-        Double atual,
 
         @NotNull(message = "Campo valor atual é obrigatório")
         Double valorAtual,
@@ -51,7 +50,7 @@ public record DetalheEventoDTO(
     public DetalheEventoDTO(Evento evento) {
         this(evento.getId(), evento.getNome(), evento.getDescricao(),
                 evento.getData(), evento.getHorario(), evento.getLocal(),
-                evento.getLoteAtual(), evento.getValorAtual(), evento.getValorAtual(),
+                evento.getLoteAtual(), evento.getValorAtual(),
                 evento.getStatus(),getBase64Images(evento.getImagens()));
     }
 

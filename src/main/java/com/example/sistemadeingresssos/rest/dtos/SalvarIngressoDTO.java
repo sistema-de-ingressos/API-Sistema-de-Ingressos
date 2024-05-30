@@ -1,12 +1,7 @@
 package com.example.sistemadeingresssos.rest.dtos;
 
-import com.example.sistemadeingresssos.entities.Cliente;
-import com.example.sistemadeingresssos.entities.Endereco;
-import com.example.sistemadeingresssos.entities.Ingresso;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.Column;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -17,6 +12,7 @@ import java.time.LocalDate;
 public record SalvarIngressoDTO(
 
         @NotEmpty(message = "Campo obrigatório!")
+        @Column(unique = true)
         @CPF(message = "Informe um CPF válido.")
         String cpf,
 
@@ -32,9 +28,7 @@ public record SalvarIngressoDTO(
         EnderecoDTO endereco,
 
         @NotNull(message = "Campo id evento obrigatório")
-        Integer idEvento,
-
-        Double total
+        Integer idEvento
         ) {
 
 }

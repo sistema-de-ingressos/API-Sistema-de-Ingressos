@@ -18,8 +18,15 @@ public class ClienteService {
         this.repository = repository;
     }
 
-    public SalvarClienteDTO save(SalvarClienteDTO salvarClienteDTO) {
+    public SalvarClienteDTO saveDTO(SalvarClienteDTO salvarClienteDTO) {
         Cliente cliente = new Cliente(salvarClienteDTO);
+        Cliente clienteSalvo = repository.save(cliente);
+        SalvarClienteDTO clienteSalvoDTO = new SalvarClienteDTO(clienteSalvo);
+
+        return clienteSalvoDTO;
+    }
+
+    public SalvarClienteDTO save(Cliente cliente) {
         Cliente clienteSalvo = repository.save(cliente);
         SalvarClienteDTO clienteSalvoDTO = new SalvarClienteDTO(clienteSalvo);
 

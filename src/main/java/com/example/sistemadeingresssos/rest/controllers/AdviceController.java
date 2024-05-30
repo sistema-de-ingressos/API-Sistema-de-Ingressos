@@ -1,17 +1,16 @@
 package com.example.sistemadeingresssos.rest.controllers;
 
-import com.example.sistemadeingresssos.exceptions.ClienteNaoEncontradoException;
 import com.example.sistemadeingresssos.exceptions.EventoException;
 import com.example.sistemadeingresssos.exceptions.IngressoNaoEncontradoException;
 import com.example.sistemadeingresssos.rest.ApiErros;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
@@ -37,6 +36,12 @@ public class AdviceController {
                 .map(erro -> erro.getDefaultMessage())
                 .collect(Collectors.toList());
         return new ApiErros(errors);
+    }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ApiErros handleNoSuchElementException(NoSuchElementException ex) {
+        return new ApiErros("CPF não cadastrado no sistema");
     }
 
 }

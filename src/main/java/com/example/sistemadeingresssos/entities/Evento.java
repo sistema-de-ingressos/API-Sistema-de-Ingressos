@@ -1,17 +1,16 @@
 package com.example.sistemadeingresssos.entities;
 
 import com.example.sistemadeingresssos.enums.EventoStatus;
+import com.example.sistemadeingresssos.rest.dtos.ListagemEventoDTO;
 import com.example.sistemadeingresssos.rest.dtos.RetornarIngressoDTO;
 import com.example.sistemadeingresssos.rest.dtos.SalvarEventoDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.annotation.PostConstruct;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -40,6 +39,7 @@ public class Evento {
     private LocalDate data;
 
     @NotNull(message = "Campo horário é obrigatório")
+    @JsonFormat(pattern = "HH:mm")
     private LocalTime horario;
 
     @NotEmpty(message = "Campo local é obrigatório")
@@ -66,11 +66,11 @@ public class Evento {
     @Column(name = "quantidade_atual")
     private Integer quantidadeAtual;
 
-    @OneToOne
-    @PrimaryKeyJoinColumn(name = "imagem", columnDefinition = "LONGBLOB")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "imagem_id")
     private EventoImagem imagemPrincipal;
 
-    @OneToMany(mappedBy = "evento")
+    @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL)
     private List<EventoImagem> imagens = new ArrayList<>();
 
     @NotNull(message = "Campo status obrigatório")
@@ -104,10 +104,19 @@ public class Evento {
         this.status = eventoDTO.status();
     }
 
+    public Evento(ListagemEventoDTO listagemEventoDTO) {
+        this.nome = listagemEventoDTO.nome();
+        this.horario = listagemEventoDTO.horario();
+        this.data = listagemEventoDTO.data();
+        this.valorAtual = listagemEventoDTO.valorAtual();
+        this.status = listagemEventoDTO.status();
+        this.local = listagemEventoDTO.local();
+    }
+
     public Evento(RetornarIngressoDTO ingressoDTO) {
         this.nome = ingressoDTO.nomeDoEvento();
         this.data = ingressoDTO.dataDoEvento();
-        this.setValorAtual(ingressoDTO.preco());
+        this.setValorAtual(ingressoDTO.total());
     }
 
     public void setValorAtual(Double valorAtual) {

@@ -9,7 +9,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.br.CPF;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -49,7 +48,7 @@ public class Cliente {
         this.cpf = salvarClienteDTO.cpf();
         this.nome = salvarClienteDTO.nome();
         this.dataDeNascimento = salvarClienteDTO.dataDeNascimento();
-        this.endereco = new Endereco(salvarClienteDTO.enderecoDTO());
+        this.endereco = new Endereco(salvarClienteDTO.endereco());
     }
 
     public Cliente(SalvarIngressoDTO salvarIngressoDTO) {

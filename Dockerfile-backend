@@ -1,0 +1,27 @@
+# Etapa de construção do backend
+FROM maven:3.9.6-eclipse-temurin-21-alpine AS build
+
+# Define o diretório de trabalho
+WORKDIR /app
+
+# Copia os arquivos do projeto
+COPY pom.xml ./
+COPY src ./src
+
+# Compila a aplicação
+RUN mvn clean package -DskipTests
+
+# Etapa de produção do backend
+FROM openjdk:21-jdk-slim
+
+# Define o diretório de trabalho
+WORKDIR /app
+
+# Copia o jar gerado para o diretório de trabalho
+COPY --from=build /app/target/*.jar app.jar
+
+# Exponha a porta que a aplicação Spring Boot está escutando
+EXPOSE 8080
+
+# Comando para iniciar a aplicação Spring Boot
+ENTRYPOINT ["java", "-jar", "app.jar"]

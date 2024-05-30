@@ -24,6 +24,7 @@ public record SalvarEventoDTO(
         LocalDate data,
 
         @NotNull(message = "Campo horário é obrigatório")
+        @JsonFormat(pattern = "HH:mm")
         LocalTime horario,
 
         @NotEmpty(message = "Campo local é obrigatório")

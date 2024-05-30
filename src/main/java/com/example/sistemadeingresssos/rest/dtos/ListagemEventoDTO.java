@@ -6,11 +6,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
 
 public record ListagemEventoDTO(
         @Id
@@ -25,6 +23,7 @@ public record ListagemEventoDTO(
         LocalDate data,
 
         @NotNull(message = "Campo horário é obrigatório")
+        @JsonFormat(pattern = "HH:mm")
         LocalTime horario,
 
         @NotEmpty(message = "Campo local é obrigatório")

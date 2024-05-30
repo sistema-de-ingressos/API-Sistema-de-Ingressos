@@ -1,11 +1,10 @@
 package com.example.sistemadeingresssos.rest.controllers;
 
-import com.example.sistemadeingresssos.entities.Cliente;
 import com.example.sistemadeingresssos.entities.Ingresso;
 import com.example.sistemadeingresssos.rest.dtos.CarrinhoIngressoDTO;
 import com.example.sistemadeingresssos.rest.dtos.RetornarIngressoDTO;
+import com.example.sistemadeingresssos.rest.dtos.RetornarIngressosClienteDTO;
 import com.example.sistemadeingresssos.rest.dtos.SalvarIngressoDTO;
-import com.example.sistemadeingresssos.services.EventoService;
 import com.example.sistemadeingresssos.services.QrCodeService;
 import com.example.sistemadeingresssos.services.TransacaoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,8 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -58,16 +55,9 @@ public class IngressoController {
 
     @GetMapping(value = "/busca/{cpf}")
     @Operation(summary = "Busca o ingresso através do CPF do cliente", tags = {"Compra de ingressos"})
-    public ResponseEntity<List<RetornarIngressoDTO>> findByCpf(@PathVariable String cpf){
-        List<RetornarIngressoDTO> lista = service.findIngressoByCpf(cpf);
+    public ResponseEntity<RetornarIngressosClienteDTO> findByCpf(@PathVariable String cpf){
+        RetornarIngressosClienteDTO lista = service.findIngressoByCpf(cpf);
         return ResponseEntity.ok(lista);
-    }
-
-    @GetMapping(value = "/carrinho/{idDoIngresso}")
-    @Operation(summary = "Retorna o carrinho de compra", tags = {"Compra de ingressos"})
-    public ResponseEntity<CarrinhoIngressoDTO> carrinho(@PathVariable UUID idDoIngresso){
-        CarrinhoIngressoDTO carrinhoIngressoDTO = service.carrinho(idDoIngresso);
-        return ResponseEntity.ok(carrinhoIngressoDTO);
     }
 
     @GetMapping(value = "/qrcode/{idDoIngresso}", produces = MediaType.IMAGE_PNG_VALUE)
