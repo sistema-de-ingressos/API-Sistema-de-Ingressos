@@ -8,7 +8,7 @@ import java.time.LocalTime;
 
 public record CarrinhoIngressoDTO(
         String nomeDoEvento, Double valor, Double taxa, Double total, String descricao,
-        String local, @JsonFormat(pattern = "dd/MM/yyyy") LocalDate data, @JsonFormat(pattern = "HH/mm") LocalTime horario, byte[] imagemDestaque) {
+        String local, @JsonFormat(pattern = "dd/MM/yyyy") LocalDate data, @JsonFormat(pattern = "HH:mm") LocalTime horario, byte[] imagemDestaque) {
 
     public CarrinhoIngressoDTO(Evento evento) {
         this(evento.getNome(), evento.getValorAtual(),
