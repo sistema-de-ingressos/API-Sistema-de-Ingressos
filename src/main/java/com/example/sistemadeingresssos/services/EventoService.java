@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -64,12 +65,14 @@ public class EventoService {
     public List<ListagemEventoDTO> buscarEventosFuturos() {
         LocalDate dataAtual = LocalDate.now();
         List<ListagemEventoDTO> list = findAll()
-                                    .stream()
-                                    .filter(evento -> evento.getData().isAfter(dataAtual))
-                                    .map(ListagemEventoDTO::new)
-                                    .collect(Collectors.toList());
+                .stream()
+                .filter(evento -> evento.getData().isAfter(dataAtual))
+                .sorted(Comparator.comparing(Evento::getData))
+                .map(ListagemEventoDTO::new)// Ordena pela data em ordem crescente
+                .collect(Collectors.toList());
         return list;
     }
+
 
     public List<ListagemEventoDTO> buscarEventosQuaseLotados() {
         List<ListagemEventoDTO> list = findAll()
